@@ -1,0 +1,22 @@
+name: 同步代码到Gitee
+on:
+  push:
+    branches:
+      - main
+jobs:
+  repo-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 将 Github 组织仓库镜像到 Gitee
+        uses: Yikun/hub-mirror-action@master
+        with:
+          src: 'github/LCG0214'    						# 这里改为自己github账号名称，如github/xiaoming
+          dst: 'gitee/lichungui'     						# 这里改为gitee上账号名称，如gitee/xiaoming
+          dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}  	# 这是生成的私钥，下面第3步会讲
+          dst_token:  ${{ secrets.GITEE_TOKEN }}     	# 这是gitee上生成的token，下面会讲
+          force_update: true
+          static_list: "study-code"   					# 同步的仓库名称，这里为YOLO2COCO，意思是会自动同步该仓库到gitee下同名仓库
+          debug: true
