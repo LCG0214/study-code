@@ -1,0 +1,24 @@
+logging:
+  level:
+    # 这里设置日志等级，可以具体到类上，例如我这里将com.lcgui.springbootlog.controller设置成debug，那么只有这个包内的类才会输出debug级别的日志
+    # 其他包的日志输出级别为默认的info级别
+    cn.lcgui.springbootlog.controller: debug
+  # 将日志生成到文件的配置
+#  file:
+    # 只设置文件名，则日志文件输出到当前目录，文件名为test.log，并且日志文件以追加的方式写入
+#    name: test.log
+    # 同时设置文件名和路径，则只有文件名生效，路径不会生效，也就是说 logging.file.name 的优先级大于 logging.file.path
+    # 当只设置logging.file.path时，日志会生成在指定的目录，并且默认的文件名为 spring.log, 并且日志文件以追加的方式写入
+#    path: logs
+  logback:
+    rollingpolicy:
+      # 设置是否在启动时清除历史记录, false(默认): 不删除历史记录, true: 删除历史记录
+      clean-history-on-start: true
+      # 设置日志文件名后缀，默认为
+      file-name-pattern: logs/app-%d{yyyy-MM}-%i.gz
+      # 设置日志文件最大大小，默认为 10MB
+      max-file-size: 1B
+      # 设置日志文件总大小，默认为 10MB 也就是 日志归档在被删除之前所能容纳的最大大小
+      total-size-cap: 20MB
+      # 设置日志文件保留天数
+      max-history: 30
