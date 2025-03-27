@@ -17,7 +17,7 @@ public class LogController {
     public void test() {
         // 日志级别：trace < debug < info < warn < error
         // 系统默认是info级别，所以trace和debug级别的日志不会输出，通过修改配置文件来改变日志级别。
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 10; i++) {
             log.trace("这是trace级别的日志。");
             log.debug("这是debug级别的日志。");
             log.info("这是info级别的日志。");
