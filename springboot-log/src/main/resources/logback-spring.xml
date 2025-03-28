@@ -204,7 +204,11 @@
     <!--     4.1 开发环境:打印控制台-->
     <!-- 用于在Spring Boot应用程序中配置日志记录的标签。在这个标签中，name="dev"表示这个配置文件只在dev环境中生效，<logger name="com.myClass.controller" level="debug"/>表示为com.myClass.controller（根据业务修改）这个包下的类配置日志输出级别为debug -->
     <springProfile name="dev">
-        <logger name="com.myClass.controller" level="debug"/>
+        <!-- 如果这里同时和yml配置文件设置了同路径的日志级别，则yml日志级别大于lock-spring.yml 也就是 yml > xml -->
+        <logger name="cn.lcgui.springbootlog.controller" level="debug"/>
+        <logger name="cn.lcgui.springbootlog.mapper" level="debug">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
     </springProfile>
     <!-- 用于配置日志输出的标签。在这个标签中，level="info"表示日志输出级别为info，<appender-ref ref="CONSOLE"/>、<appender-ref ref="DEBUG_FILE"/>、<appender-ref ref="INFO_FILE"/>、<appender-ref ref="WARN_FILE"/>、<appender-ref ref="ERROR_FILE"/>表示将日志输出到不同的appender中，分别为控制台、debug文件、info文件、warn文件和error文件 -->
     <root level="info">

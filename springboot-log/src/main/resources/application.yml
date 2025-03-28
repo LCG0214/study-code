@@ -2,7 +2,7 @@ logging:
   level:
     # 这里设置日志等级，可以具体到类上，例如我这里将com.lcgui.springbootlog.controller设置成debug，那么只有这个包内的类才会输出debug级别的日志
     # 其他包的日志输出级别为默认的info级别
-    cn.lcgui.springbootlog.controller: trace
+    cn.lcgui.springbootlog.controller: debug
   # 将日志生成到文件的配置
 #  file:
     # 只设置文件名，则日志文件输出到当前目录，文件名为test.log，并且日志文件以追加的方式写入
@@ -27,3 +27,16 @@ logging:
 #  output:
 #    ansi:
 #      enabled: always
+
+spring:
+  # 配置本地的数据源
+  datasource:
+    #  配置mysql并设置上海时区
+    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+# 指定mybatis扫描xml文件路径
+mybatis:
+  mapper-locations: classpath:/mybatis/**/*.xml

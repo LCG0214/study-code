@@ -1,11 +1,15 @@
 package cn.lcgui.springbootlog.controller;
 
+import cn.lcgui.springbootlog.mapper.LogMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 
 @RestController(value = "log")
@@ -13,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class LogController {
 
     private static final Logger log = LoggerFactory.getLogger(LogController.class);
+
+    @Resource
+    private LogMapper logMapper;
 
     @GetMapping("/test")
     public void test() {
@@ -23,5 +30,11 @@ public class LogController {
         log.info("这是info级别的日志。");
         log.warn("这是warn级别的日志。");
         log.error("这是error级别的日志。");
+    }
+
+    @GetMapping("/testSQL")
+    public String testSQL() {
+        List<Map<String, Object>> maps = logMapper.selectAll();
+        return maps.toString();
     }
 }
