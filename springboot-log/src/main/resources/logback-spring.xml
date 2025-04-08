@@ -180,6 +180,7 @@
     <appender name="MERGE_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 正在记录的日志文档的路径及文档名 -->
         <file>${logging.path}/all.log</file>
+        <append>false</append>
         <!--日志文档输出格式-->
         <encoder>
             <pattern>${LOG_PATTERN}</pattern>
@@ -201,13 +202,45 @@
             <level>DEBUG</level>
         </filter>
     </appender>
+
+    <appender name="APP_SQL" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 正在记录的日志文档的路径及文档名 -->
+        <file>${logging.path}/sql.log</file>
+        <append>true</append>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <!-- onMatch:意思是当前级别以及以上要怎么处理 -->
+            <onMatch>ACCEPT</onMatch>
+            <!-- onMismatch:意思是当前级别(不包括当前级别)以下要怎么处理 -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!--存档日志示例-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logging.path}/roll-sql-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${ROLL_FILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!--日志文档保留天数-->
+            <maxHistory>${FILE_MAX_HISTORY}</maxHistory>
+            <!--所有的日志文件最大，超过就会删除旧的日志-->
+            <totalSizeCap>${FILE_TOTAL_SIZE_CAP}</totalSizeCap>
+        </rollingPolicy>
+        <!--统一日志输出格式-->
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>${CHARSET}</charset>
+        </encoder>
+    </appender>
+
     <!--     4.1 开发环境:打印控制台-->
-    <!-- 用于在Spring Boot应用程序中配置日志记录的标签。在这个标签中，name="dev"表示这个配置文件只在dev环境中生效，<logger name="com.myClass.controller" level="debug"/>表示为com.myClass.controller（根据业务修改）这个包下的类配置日志输出级别为debug -->
+    <!-- 用于在Spring Boot应用程序中配置日志记录的标签。在这个标签中，name="dev"表示这个配置文件只在dev环境中生效，
+    <logger name="com.myClass.controller" level="debug"/>表示为com.myClass.controller（根据业务修改）这个包下的类配置日志输出级别为debug -->
     <springProfile name="dev">
         <!-- 如果这里同时和yml配置文件设置了同路径的日志级别，则yml日志级别大于lock-spring.yml 也就是 yml > xml -->
-        <logger name="cn.lcgui.springbootlog.controller" level="debug"/>
-        <logger name="cn.lcgui.springbootlog.mapper" level="debug">
-            <appender-ref ref="CONSOLE"/>
+        <!--若是additivity设为true，则子Logger不止会在自己的appender里输出，还会在root的logger的appender里输出-->
+        <logger name="cn.lcgui.springbootlog.controller" level="debug" additivity="false" />
+        <logger name="cn.lcgui.springbootlog.mapper" level="debug" additivity="false">
+            <appender-ref ref="APP_SQL"/>
         </logger>
     </springProfile>
     <!-- 用于配置日志输出的标签。在这个标签中，level="info"表示日志输出级别为info，<appender-ref ref="CONSOLE"/>、<appender-ref ref="DEBUG_FILE"/>、<appender-ref ref="INFO_FILE"/>、<appender-ref ref="WARN_FILE"/>、<appender-ref ref="ERROR_FILE"/>表示将日志输出到不同的appender中，分别为控制台、debug文件、info文件、warn文件和error文件 -->
