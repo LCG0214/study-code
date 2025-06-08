@@ -1,0 +1,34 @@
+// 里程优惠规则
+package mileage.rule.methods.update
+
+import cn.lcgui.drools.entity.MileageOrder
+
+// 规则一：里程小于100公里，无折扣
+rule "mileage_discount_2_1"
+    when
+        $order: MileageOrder(mileage < 100)
+    then
+        $order.setRealPrice($order.getOriginalPrice());
+        System.out.println("成功匹配到里程规则二规则一：里程小于100公里，无折扣");
+end
+
+// 规则二：里程在100~500公里之间，9折
+rule "mileage_discount_2_2"
+    salience 5 // 方法：mileageRuleTest3() 中测试使用
+    when
+        $order: MileageOrder(mileage >= 100 && mileage < 500)
+    then
+        $order.setMileage(500);
+        update($order)
+        $order.setRealPrice($order.getOriginalPrice() * 0.9);
+        System.out.println("成功匹配到里程规则二规则二：里程在100~500公里之间，9折");
+end
+
+// 规则三：里程大于等于500公里，8折
+rule "mileage_discount_2_3"
+    when
+        $order: MileageOrder(mileage >= 500)
+    then
+        $order.setRealPrice($order.getOriginalPrice() * 0.8);
+        System.out.println("成功匹配到里程规则二规则三：里程大于等于500公里，8折");
+end

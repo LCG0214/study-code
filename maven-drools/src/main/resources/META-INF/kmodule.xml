@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<kmodule xmlns="http://www.drools.org/xsd/kmodule">
+    <!--
+        name:指定kbase的名称，可以任意，但是需要唯一
+        packages:指定规则文件的目录，需要根据实际情况填写，否则无法加载到规则文件
+        default:指定当前kbase是否为默认
+    -->
+    <kbase name="BookRule" packages="rules" default="true">
+        <!--
+            name:指定ksession名称，可以任意，但是需要唯一
+            default:指定当前session是否为默认
+        -->
+        <ksession name="book-rule" default="true"/>
+    </kbase>
+
+    <!-- 用于测试方法：mileageRuleTest2() 和 mileageRuleTest3() -->
+    <kbase name="MileageRule" packages="mileage" default="false">
+        <ksession name="mileage-rule" default="false"/>
+    </kbase>
+
+    <!-- 用于测试内置的update方法 -->
+    <kbase name="MileageRule-Update" packages="mileage.rule.methods.update" default="false">
+        <ksession name="mileage-rule-update" default="false"/>
+    </kbase>
+
+    <!-- 用于测试内置的insert方法 -->
+    <kbase name="MileageRule-Insert" packages="mileage.rule.methods.insert" default="false">
+        <ksession name="mileage-rule-insert" default="false"/>
+    </kbase>
+
+    <!-- 用于测试内置的retract方法 -->
+    <kbase name="MileageRule-Retract" packages="mileage.rule.methods.retract" default="false">
+        <ksession name="mileage-rule-retract" default="false"/>
+    </kbase>
+
+    <kbase name="MileageRule-NoLoop" packages="mileage.rule.methods.noloop" default="false">
+        <ksession name="mileage-rule-noloop" default="false"/>
+    </kbase>
+</kmodule>
